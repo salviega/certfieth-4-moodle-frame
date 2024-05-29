@@ -8,7 +8,7 @@ import { getDefaultConfig, RainbowKitProvider } from '@rainbow-me/rainbowkit'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
 import { RAINBOW_KIT_APP_ID, RAINBOW_KIT_APP_NAME } from './config/commons.ts'
-import App from './App.tsx'
+import App from './pages/App/App.tsx'
 
 import '@rainbow-me/rainbowkit/styles.css'
 import './index.css'
@@ -20,8 +20,6 @@ const config = getDefaultConfig({
 	ssr: false // If your dApp uses server side rendering (SSR)
 })
 
-const queryClient = new QueryClient()
-
 const apiKey: string = import.meta.env.VITE_AIRSTACK_API_KEY
 
 if (!apiKey) {
@@ -30,14 +28,16 @@ if (!apiKey) {
 
 init(apiKey)
 
+const queryClient = new QueryClient()
+
 ReactDOM.createRoot(document.getElementById('root')!).render(
 	<React.StrictMode>
-		<WagmiProvider config={config}>
-			<QueryClientProvider client={queryClient}>
+		<QueryClientProvider client={queryClient}>
+			<WagmiProvider config={config}>
 				<RainbowKitProvider>
 					<App />
 				</RainbowKitProvider>
-			</QueryClientProvider>
-		</WagmiProvider>
+			</WagmiProvider>
+		</QueryClientProvider>
 	</React.StrictMode>
 )

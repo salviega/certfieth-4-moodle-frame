@@ -1,32 +1,23 @@
 import { useEffect, useState } from 'react'
 import { useAccount } from 'wagmi'
 
+import { Profile } from '@/models/profile.model'
+import { fetchUserProfile } from '@/queries'
 import { useQuery } from '@airstack/airstack-react'
-import { ConnectButton } from '@rainbow-me/rainbowkit'
 
-import { Profile } from './models/profile.model'
-import { fetchUserProfile } from './queries'
-
-import './App.css'
-
-function App() {
+export default function Home(): JSX.Element {
 	const { address } = useAccount()
-	const [query, setQuery] = useState<string | null>(null)
+	const [query, setQuery] = useState<string>('')
 	const [profile, setProfile] = useState<Profile | null>(null)
 	const [isLoading, setIsLoading] = useState(true)
-
-	const { data, loading, error } = useQuery(
-		query,
-		{},
-		{ cache: false, skip: !query }
-	)
+	const { data, loading, error } = useQuery(query, {}, { cache: false })
 
 	useEffect(() => {
 		if (address) {
 			setQuery(fetchUserProfile(address))
 			setIsLoading(false)
 		} else {
-			setQuery(null)
+			setQuery('')
 			setProfile(null) // Reset the profile if the address is not present.
 			setIsLoading(false)
 		}
@@ -37,12 +28,10 @@ function App() {
 			setProfile(data.Socials.Social[0])
 		}
 	}, [data, loading])
-
 	return (
 		<>
 			<h1>CertifiETH for Moodle</h1>
 			<div className='card'>
-				<ConnectButton />
 				{isLoading ? (
 					<p>Loading...</p>
 				) : address ? (
@@ -57,7 +46,7 @@ function App() {
 							<img src={profile.profileImage} alt={profile.profileName} />
 						</div>
 					) : (
-						<p>No profile found</p>
+						<p>Your profile was not found, create a Farcaster account! 💥</p>
 					)
 				) : (
 					<p>Connect your wallet to view your profile</p>
@@ -66,5 +55,3 @@ function App() {
 		</>
 	)
 }
-
-export default App
