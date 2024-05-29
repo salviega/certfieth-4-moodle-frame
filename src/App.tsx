@@ -1,59 +1,67 @@
-import {  useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
+import { useAccount } from 'wagmi'
 
-import reactLogo from '@/assets/react.svg'
-import viteLogo from '@/assets/vite.svg'
-import { useQuery } from "@airstack/airstack-react";
+import { useQuery } from '@airstack/airstack-react'
+import { ConnectButton } from '@rainbow-me/rainbowkit'
 
-import { Profile } from './models/profile.model';
-import { QueryResponse } from './models/query-response.model';
-import { fetchUserProfile, query } from './queries';
+import { Profile } from './models/profile.model'
+import { fetchUserProfile } from './queries'
 
 import './App.css'
 
 function App() {
-	const [count, setCount] = useState(0)
-	const query: string = fetchUserProfile("0xd7A4467a26d26d00cB6044CE09eBD69EDAC0564C");
-  const { data, loading, error }: QueryResponse = useQuery<Data>(query, {}, { cache: false });
-	const [profile, setProfile] = useState<Profile | null>(null);
+	const { address } = useAccount()
+	const [query, setQuery] = useState<string | null>(null)
+	const [profile, setProfile] = useState<Profile | null>(null)
+	const [isLoading, setIsLoading] = useState(true)
+
+	const { data, loading, error } = useQuery(
+		query,
+		{},
+		{ cache: false, skip: !query }
+	)
 
 	useEffect(() => {
-		if (data) {
-			setProfile(data.Socials.Social[0]);
+		if (address) {
+			setQuery(fetchUserProfile(address))
+			setIsLoading(false)
+		} else {
+			setQuery(null)
+			setProfile(null) // Reset the profile if the address is not present.
+			setIsLoading(false)
 		}
-	}, [data]);
+	}, [address])
+
+	useEffect(() => {
+		if (data && !loading) {
+			setProfile(data.Socials.Social[0])
+		}
+	}, [data, loading])
 
 	return (
 		<>
-			<div>
-				<a href='https://vitejs.dev' target='_blank' rel='noreferrer'>
-					<img src={viteLogo} className='logo' alt='Vite logo' />
-				</a>
-				<a href='https://react.dev' target='_blank' rel='noreferrer'>
-					<img src={reactLogo} className='logo react' alt='React logo' />
-				</a>
-			</div>
-			<h1>Vite + React</h1>
+			<h1>CertifiETH for Moodle</h1>
 			<div className='card'>
-			{
-				loading && <p>Loading...</p>
-			}
-			{
-				error && <p>Error: {error.message}</p>
-			}
-			{
-				profile && (
-					<div>
-						<h2>{profile.profileName}</h2>
-						<p>{profile.id}</p>
-						<p>{profile.identity}</p>
-						<p>{profile.location}</p>
-						<p>{profile.profileBio}</p>
-						<p>{profile.profileHandle}</p>
-						<p>{profile.profileDisplayName}</p>
-						<img src={profile.profileImage} alt={profile.profileName} />
-					</div>
-				)
-			}
+				<ConnectButton />
+				{isLoading ? (
+					<p>Loading...</p>
+				) : address ? (
+					profile ? (
+						<div>
+							<p>{profile.id}</p>
+							<p>{profile.identity}</p>
+							<p>{profile.location}</p>
+							<p>{profile.profileBio}</p>
+							<p>{profile.profileHandle}</p>
+							<p>{profile.profileDisplayName}</p>
+							<img src={profile.profileImage} alt={profile.profileName} />
+						</div>
+					) : (
+						<p>No profile found</p>
+					)
+				) : (
+					<p>Connect your wallet to view your profile</p>
+				)}
 			</div>
 		</>
 	)

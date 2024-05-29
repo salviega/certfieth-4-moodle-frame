@@ -1,5 +1,5 @@
 export function fetchUserProfile(address: string): string {
-  return `
+	return `
     query GetFarcasterUserProfileByAddress {
       Socials(input: { filter: { userAssociatedAddresses: { _eq: "${address}" } }, blockchain: ethereum, limit: 50 }) {
         Social {
