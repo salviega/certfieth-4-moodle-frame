@@ -29,9 +29,9 @@ export default function Home(): JSX.Element {
 		}
 	}, [data, loading])
 	return (
-		<>
-			<h1>CertifiETH for Moodle</h1>
-			<div className='card'>
+		<div className='f'>
+			<h1 className='my-10 text-left'>CertifiETH for Moodle</h1>
+			<div>
 				{isLoading ? (
 					<p>Loading...</p>
 				) : address ? (
@@ -52,6 +52,6 @@ export default function Home(): JSX.Element {
 					<p>Connect your wallet to view your profile</p>
 				)}
 			</div>
-		</>
+		</div>
 	)
 }
