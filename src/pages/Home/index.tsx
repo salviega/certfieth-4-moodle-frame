@@ -1,33 +1,30 @@
 import { useEffect, useState } from 'react'
 import { useAccount } from 'wagmi'
 
+import { getRequests } from '@/graphql/requests'
 import { Profile } from '@/models/profile.model'
-import { fetchUserProfile } from '@/queries'
-import { useQuery } from '@airstack/airstack-react'
 
 export default function Home(): JSX.Element {
-	const { address } = useAccount()
-	const [query, setQuery] = useState<string>('')
-	const [profile, setProfile] = useState<Profile | null>(null)
-	const [isLoading, setIsLoading] = useState(true)
-	const { data, loading, error } = useQuery(query, {}, { cache: false })
+	const { fetchProfileByAddress } = getRequests()
 
-	useEffect(() => {
+	const { address } = useAccount()
+	const [profile, setProfile] = useState<Profile | null>(null)
+	const [isLoading, setIsLoading] = useState<boolean>(true)
+
+	const fetchProfile = async () => {
 		if (address) {
-			setQuery(fetchUserProfile(address))
+			setProfile(await fetchProfileByAddress(address))
 			setIsLoading(false)
 		} else {
-			setQuery('')
-			setProfile(null) // Reset the profile if the address is not present.
+			setProfile(null)
 			setIsLoading(false)
 		}
-	}, [address])
+	}
 
 	useEffect(() => {
-		if (data && !loading) {
-			setProfile(data.Socials.Social[0])
-		}
-	}, [data, loading])
+		fetchProfile()
+	}, [address])
+
 	return (
 		<div className='f'>
 			<h1 className='my-10 text-left'>CertifiETH for Moodle</h1>
