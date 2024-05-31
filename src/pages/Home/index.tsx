@@ -1,12 +1,10 @@
 import { useEffect, useState } from 'react'
+import { LinkedinShareButton } from 'react-share'
 import { useAccount } from 'wagmi'
 
 import { getRequests } from '@/graphql/requests'
 import { Profile } from '@/models/profile.model'
-import {
-	faShareFromSquare,
-	faShareNodes
-} from '@fortawesome/free-solid-svg-icons'
+import { faShareFromSquare } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 export default function Home(): JSX.Element {
@@ -31,8 +29,8 @@ export default function Home(): JSX.Element {
 	}, [address])
 
 	return (
-		<div className='mt-16 mx-24'>
-			<div className='flex justify-between items-center gap-8 bg-slate-200'>
+		<div>
+			<div className='flex flex-col sm:w-[600px] md:w-[800px] md:flex-row lg:w-[1100px] justify-between items-center my-12 mx-auto gap-8 bg-slate-200 p-3'>
 				{isLoading ? (
 					<p>Loading...</p>
 				) : address ? (
@@ -43,17 +41,19 @@ export default function Home(): JSX.Element {
 								src={profile.profileImage}
 								alt='profile'
 							/>
-							<div className='flex flex-col gap-3 w-full'>
+							<div className='flex flex-col w-full p-3 gap-3'>
 								<p>{profile.profileDisplayName}</p>
 								<p className='mb-3'>{`@${profile.profileHandle}`}</p>
 								<p>{profile.profileBio}</p>
 								<p>{profile.identity}</p>
 								<p>{profile.location}</p>
 								<div className='flex flex-row items-center gap-3'>
-									<FontAwesomeIcon
-										icon={faShareFromSquare}
-										className='size-4 cursor-pointer hover:text-gray-600'
-									/>
+									<LinkedinShareButton url='https://www.npmjs.com/package/react-share'>
+										<FontAwesomeIcon
+											icon={faShareFromSquare}
+											className='size-4 cursor-pointer hover:text-gray-600'
+										/>
+									</LinkedinShareButton>
 									<p>{'|'}</p>
 									<p className='border-b border-gray-400 cursor-pointer hover:text-gray-600'>
 										{'Share me profile'}
