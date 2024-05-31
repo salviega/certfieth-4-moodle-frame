@@ -29,13 +29,13 @@ export default function Home(): JSX.Element {
 	}, [address])
 
 	return (
-		<div>
-			<div className='flex flex-col sm:w-[600px] md:w-[800px] md:flex-row lg:w-[1100px] justify-between items-center my-12 mx-auto gap-8 bg-slate-200 p-3'>
+		<div className='flex flex-col items-center'>
+			<div className='flex flex-col my-12'>
 				{isLoading ? (
 					<p>Loading...</p>
 				) : address ? (
 					profile ? (
-						<>
+						<div className='flex flex-col md:w-[600px] lg:flex-row lg:w-[1100px] justify-between items-center mx-auto gap-8'>
 							<img
 								className='size-96 rounded-full'
 								src={profile.profileImage}
@@ -60,12 +60,12 @@ export default function Home(): JSX.Element {
 									</p>
 								</div>
 							</div>
-						</>
+						</div>
 					) : (
-						<p>Your profile was not found, create a Farcaster account! 💥</p>
+						<p>Your profile was not found, create a Farcaster account! 😢😢</p>
 					)
 				) : (
-					<p>Connect your wallet to view your profile</p>
+					<p>Connect your wallet to view your profile 🏄‍♀️ </p>
 				)}
 			</div>
 		</div>

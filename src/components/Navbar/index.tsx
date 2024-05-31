@@ -12,7 +12,7 @@ export default function Navbar(): JSX.Element {
 	const { fetchAllProfilesByHandle } = getRequests()
 
 	const [input, setInput] = useState<string>('')
-	const [isLoading, setIsLoading] = useState<boolean>(true)
+	const [isLoading, setIsLoading] = useState<boolean>(false)
 	const [isOpen, setIsOpen] = useState<boolean>(false)
 	const [profiles, setProfiles] = useState<Profile[] | []>([])
 
@@ -28,9 +28,15 @@ export default function Navbar(): JSX.Element {
 		}
 	}
 
+	const handleInputClick = async () => {
+		if (input.length > 2) {
+			setIsOpen(true)
+		}
+	}
+
 	const selectProfile = (profile: Profile) => {
 		console.log('profile: ', profile)
-		setInput('')
+		setInput(profile.profileHandle)
 		setIsOpen(false)
 	}
 
@@ -61,16 +67,16 @@ export default function Navbar(): JSX.Element {
 	return (
 		<nav className='flex flex-col items-center w-full h-32 py-5 px-8 z-10 border-b-2 box-border shadow-md text-sm font-light'>
 			<ul className='flex justify-around items-center w-full '>
-				<li className='flex justify-between items-center w-max gap-6'>
+				<li className='flex justify-between items-center size-20 w-max gap-6'>
 					<Link to='/'>
 						<img
-							className='rounded-full size-20'
+							className='rounded-full size-20 hidden md:block'
 							src='https://pbs.twimg.com/profile_images/1788729114792263680/DAJoQA6p_400x400.jpg'
 							alt='logo'
 						/>
 					</Link>
-					<div className='relative w-96 cursor-pointer'>
-						<div className='flex items-center '>
+					<div className='relative w-max cursor-pointer'>
+						<div className='flex items-center w-32 md:w-48 lg:w-96'>
 							<FontAwesomeIcon
 								icon={faMagnifyingGlass}
 								className='absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400'
@@ -81,6 +87,7 @@ export default function Navbar(): JSX.Element {
 								type='text'
 								value={input}
 								onChange={event => handleInputChange(event.target.value)}
+								onClick={handleInputClick}
 							/>
 						</div>
 						{isOpen && (
@@ -100,15 +107,18 @@ export default function Navbar(): JSX.Element {
 									profiles.map((profile: Profile, index: number) => (
 										<div key={index}>
 											<button
-												className='flex justify-between items-center w-full h-14 pl-1 pr-5 border rounded-md text-right hover:bg-gray-100'
+												className='flex justify-center items-center w-full h-14  border rounded-md text-right hover:bg-gray-100 md:justify-between md:pl-1 md:pr-5'
 												onClick={() => selectProfile(profile)}
 											>
 												<img
 													src={profile.profileImage}
 													alt={profile.profileName}
-													className='size-12 rounded-lg'
+													className='size-12 rounded-lg hidden md:block'
 												/>
-												{`${profile.profileDisplayName} (${profile.profileHandle})`}
+												<div className='flex items-center w-ful gap-1 text-right'>
+													<p>{profile.profileDisplayName}</p>
+													<p className='hidden lg:inline'>{`(${profile.profileHandle})`}</p>
+												</div>
 											</button>
 										</div>
 									))
