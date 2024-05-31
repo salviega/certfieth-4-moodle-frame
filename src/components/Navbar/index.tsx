@@ -96,7 +96,7 @@ export default function Navbar(): JSX.Element {
 								className='absolute flex flex-col w-full pt-2 shadow rounded bg-white'
 							>
 								{isLoading ? (
-									<button className='w-full h-14 pl-1 pr-5 border rounded-md text-center hover:bg-gray-100'>
+									<button className='w-full h-14  m-auto border rounded-md text-center hover:bg-gray-100 md:justify-between md:pl-1 md:pr-5'>
 										<SyncLoader
 											color={'#e5e7eb'}
 											size={10}
@@ -124,7 +124,7 @@ export default function Navbar(): JSX.Element {
 									))
 								) : (
 									<button className='w-full h-14 pl-1 pr-5 border rounded-md text-right hover:bg-gray-100'>
-										No profiles found
+										No results
 									</button>
 								)}
 							</div>
