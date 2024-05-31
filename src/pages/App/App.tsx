@@ -3,6 +3,7 @@ import { BrowserRouter, useRoutes } from 'react-router-dom'
 import Layout from '@/components/Layout'
 
 import Home from '../Home'
+import User from '../User'
 
 import './App.css'
 
@@ -11,6 +12,10 @@ function AppRoutes() {
 		{
 			path: '/',
 			element: <Home />
+		},
+		{
+			path: '/users/:handle',
+			element: <User />
 		},
 		{
 			path: '/*',

@@ -18,6 +18,7 @@ export const fetchAllProfilesByHandleQuery = (handle: string): string => {
 					profileImage
 					profileHandle
 					profileDisplayName
+					userAssociatedAddresses
 				}
 			}
 		}
@@ -45,6 +46,7 @@ export const fetchProfileByAddressQuery = (address: string): string => {
 				profileImage
 				profileHandle
 				profileDisplayName
+				userAssociatedAddresses
 			}
 		}
 	}
@@ -69,6 +71,7 @@ export const fetchProfileByHandleQuery = (handle: string): string => {
 				profileImage
 				profileHandle
 				profileDisplayName
+				userAssociatedAddresses
 			}
 		}
 	}

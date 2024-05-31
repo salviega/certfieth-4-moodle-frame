@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import SyncLoader from 'react-spinners/SyncLoader'
 
 import { getRequests } from '@/graphql/requests'
@@ -11,6 +11,7 @@ import { ConnectButton } from '@rainbow-me/rainbowkit'
 export default function Navbar(): JSX.Element {
 	const { fetchAllProfilesByHandle } = getRequests()
 
+	const navegate = useNavigate()
 	const [input, setInput] = useState<string>('')
 	const [isLoading, setIsLoading] = useState<boolean>(false)
 	const [isOpen, setIsOpen] = useState<boolean>(false)
@@ -35,9 +36,9 @@ export default function Navbar(): JSX.Element {
 	}
 
 	const selectProfile = (profile: Profile) => {
-		console.log('profile: ', profile)
 		setInput(profile.profileHandle)
 		setIsOpen(false)
+		navegate(`/users/${profile.profileHandle}`)
 	}
 
 	const searchProfile = async (handle: string) => {
