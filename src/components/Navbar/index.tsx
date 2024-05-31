@@ -1,5 +1,6 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Link, NavLink } from 'react-router-dom'
+import SyncLoader from 'react-spinners/SyncLoader'
 
 import { getRequests } from '@/graphql/requests'
 import { Profile } from '@/models/profile.model'
@@ -15,13 +16,22 @@ export default function Navbar(): JSX.Element {
 	const [input, setInput] = useState<string>('')
 	const [profiles, setProfiles] = useState<Profile[] | []>([])
 
+	const containerRef = useRef<HTMLDivElement | null>(null)
+
 	const handleInputChange = (handle: string) => {
 		setInput(handle)
 		if (handle.length > 0) {
 			searchProfile(handle)
 		} else {
 			setIsOpen(false)
+			setProfiles([])
 		}
+	}
+
+	const selectProfile = (profile: Profile) => {
+		console.log('profile: ', profile)
+		setInput('') // Esto limpia el campo de entrada
+		setIsOpen(false)
 	}
 
 	const searchProfile = async (handle: string) => {
@@ -30,6 +40,23 @@ export default function Navbar(): JSX.Element {
 		setIsOpen(true)
 		setIsLoading(false)
 	}
+
+	useEffect(() => {
+		// TODO: Fix any type
+		const handleClickOutside = (event: any) => {
+			if (
+				containerRef.current &&
+				!containerRef.current.contains(event.target)
+			) {
+				setIsOpen(false)
+			}
+		}
+
+		document.addEventListener('mousedown', handleClickOutside)
+		return () => {
+			document.removeEventListener('mousedown', handleClickOutside)
+		}
+	}, [])
 
 	return (
 		<nav className='flex flex-col items-center w-full h-32 py-5 px-8 z-10 border-b-2 box-border shadow-md text-sm font-light'>
@@ -43,31 +70,53 @@ export default function Navbar(): JSX.Element {
 						/>
 					</Link>
 					<div className='relative w-96 cursor-pointer'>
-						<div className='flex items-center mb-3'>
+						<div className='flex items-center '>
 							<FontAwesomeIcon
 								icon={faMagnifyingGlass}
 								className='absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400'
 							/>
 							<input
 								className='w-full pl-10 pr-3 py-2 border rounded-md'
-								type='text'
 								placeholder='Discover other users with their handle'
+								type='text'
+								value={input}
 								onChange={event => handleInputChange(event.target.value)}
 							/>
 						</div>
 						{isOpen && (
-							<div className='absolute flex flex-col w-full py-2 gap-3 shadow rounded bg-white'>
-								{profiles.length > 0 ? (
-									profiles.map((profile: Profile) => (
-										<p
-											key={profile.id}
-											className='w-full pr-5 text-right hover:bg-gray-100'
-										>
-											{profile.profileHandle}
-										</p>
+							<div
+								ref={containerRef}
+								className='absolute flex flex-col w-full pt-2 shadow rounded bg-white'
+							>
+								{isLoading ? (
+									<button className='w-full h-14 pl-1 pr-5 border rounded-md text-center hover:bg-gray-100'>
+										<SyncLoader
+											color={'#e5e7eb'}
+											size={10}
+											speedMultiplier={0.8}
+										/>
+										{/* Loading... */}
+									</button>
+								) : profiles.length > 0 ? (
+									profiles.map((profile: Profile, index: number) => (
+										<div key={index}>
+											<button
+												className='flex justify-between items-center w-full h-14 pl-1 pr-5 border rounded-md text-right hover:bg-gray-100'
+												onClick={() => selectProfile(profile)}
+											>
+												<img
+													src={profile.profileImage}
+													alt={profile.profileName}
+													className='size-12 rounded-lg'
+												/>
+												{`${profile.profileDisplayName} (${profile.profileHandle})`}
+											</button>
+										</div>
 									))
 								) : (
-									<p>No profiles found</p>
+									<button className='w-full h-14 pl-1 pr-5 border rounded-md text-right hover:bg-gray-100'>
+										No profiles found
+									</button>
 								)}
 							</div>
 						)}

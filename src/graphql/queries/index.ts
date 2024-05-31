@@ -1,13 +1,13 @@
 import { gql } from 'graphql-request'
 
-export const fetchAllProfilesByHandleQuery = (handle: string) => {
+export const fetchAllProfilesByHandleQuery = (handle: string): string => {
 	return gql`
 		query GetAllProfilesByHandle {
 			Socials(
 				input: {
 					filter: { profileName: { _regex: "${handle}" } }
 					blockchain: ethereum
-					limit: 50
+					limit: 6
 				}
 			) {
 				Social {
@@ -24,7 +24,7 @@ export const fetchAllProfilesByHandleQuery = (handle: string) => {
 	`
 }
 
-export const fetchProfileByAddressQuery = (address: string) => {
+export const fetchProfileByAddressQuery = (address: string): string => {
 	return gql`
 	query GetProfileByAddress {
 		Socials(
@@ -51,11 +51,12 @@ export const fetchProfileByAddressQuery = (address: string) => {
 `
 }
 
-export const fetchProfileByHandleQuery = gql`
+export const fetchProfileByHandleQuery = (handle: string): string => {
+	return gql`
 	query GetProfilesByHandle {
 		Socials(
 			input: {
-				filter: { profileName: { _eq: $handle } }
+				filter: { profileName: { _eq: "${handle}" } }
 				blockchain: ethereum
 				limit: 50
 			}
@@ -72,3 +73,4 @@ export const fetchProfileByHandleQuery = gql`
 		}
 	}
 `
+}

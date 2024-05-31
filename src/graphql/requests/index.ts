@@ -14,24 +14,42 @@ export function getRequests() {
 
 	async function fetchAllProfilesByHandle(handle: string): Promise<Profile[]> {
 		const query: string = fetchAllProfilesByHandleQuery(handle)
+
 		// TODO: Fix any type
 		const data: any = await client.request(query)
+
+		if (!data.Socials.Social) {
+			return [] as Profile[]
+		}
+
 		const profiles: Profile[] = data.Socials.Social
 		return profiles
 	}
 
 	async function fetchProfileByAddress(address: string): Promise<Profile> {
 		const query: string = fetchProfileByAddressQuery(address)
+
 		// TODO: Fix any type
 		const data: any = await client.request(query)
+
+		if (!data.Socials.Social) {
+			return {} as Profile
+		}
+
 		const profile: Profile = data.Socials.Social[0]
 		return profile
 	}
+	async function fetchProfileByHandle(handle: string): Promise<Profile> {
+		const query: string = fetchProfileByHandleQuery(handle)
 
-	async function fetchProfileByHandle(handle: string) {
-		const variables = { handle }
-		const data = await client.request(fetchProfileByHandleQuery, variables)
-		return data
+		// TODO: Fix any type
+		const data: any = await client.request(query)
+
+		if (!data.Socials.Social) {
+			return {} as Profile
+		}
+		const profile = data.Socials.Social[0]
+		return profile
 	}
 
 	return {
