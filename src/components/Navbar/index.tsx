@@ -18,10 +18,10 @@ export default function Navbar(): JSX.Element {
 
 	const containerRef = useRef<HTMLDivElement | null>(null)
 
-	const handleInputChange = (handle: string) => {
+	const handleInputChange = async (handle: string) => {
 		setInput(handle)
 		if (handle.length > 0) {
-			searchProfile(handle)
+			await searchProfile(handle)
 		} else {
 			setIsOpen(false)
 			setProfiles([])
@@ -35,9 +35,9 @@ export default function Navbar(): JSX.Element {
 	}
 
 	const searchProfile = async (handle: string) => {
+		setIsOpen(true)
 		setIsLoading(true)
 		setProfiles(await fetchAllProfilesByHandle(handle))
-		setIsOpen(true)
 		setIsLoading(false)
 	}
 
