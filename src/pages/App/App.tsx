@@ -14,6 +14,10 @@ function AppRoutes() {
 			element: <Home />
 		},
 		{
+			path: '/users',
+			element: <Home />
+		},
+		{
 			path: '/users/:handle',
 			element: <User />
 		},

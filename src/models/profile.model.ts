@@ -7,5 +7,6 @@ export interface Profile {
 	profileHandle: string
 	profileImage: string
 	profileName: string
+	userAddress: string
 	userAssociatedAddresses: string[]
 }

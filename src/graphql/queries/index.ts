@@ -18,6 +18,7 @@ export const fetchAllProfilesByHandleQuery = (handle: string): string => {
 					profileImage
 					profileHandle
 					profileDisplayName
+					userAddress
 					userAssociatedAddresses
 				}
 			}
@@ -46,6 +47,7 @@ export const fetchProfileByAddressQuery = (address: string): string => {
 				profileImage
 				profileHandle
 				profileDisplayName
+				userAddress
 				userAssociatedAddresses
 			}
 		}
@@ -55,25 +57,26 @@ export const fetchProfileByAddressQuery = (address: string): string => {
 
 export const fetchProfileByHandleQuery = (handle: string): string => {
 	return gql`
-	query GetProfilesByHandle {
-		Socials(
-			input: {
-				filter: { profileName: { _eq: "${handle}" } }
-				blockchain: ethereum
-				limit: 50
-			}
-		) {
-			Social {
-				id
-				location
-				profileBio
-				profileName
-				profileImage
-				profileHandle
-				profileDisplayName
-				userAssociatedAddresses
+		query GetProfilesByHandle {
+			Socials(
+				input: {
+					filter: { profileName: { _eq: "salviega" } }
+					blockchain: ethereum
+					limit: 50
+				}
+			) {
+				Social {
+					id
+					location
+					profileBio
+					profileName
+					profileImage
+					profileHandle
+					profileDisplayName
+					userAddress
+					userAssociatedAddresses
+				}
 			}
 		}
-	}
-`
+	`
 }

@@ -18,12 +18,12 @@ export function getRequests() {
 		// TODO: Fix any type
 		const data: any = await client.request(query)
 
-		if (!data.Socials.Social) {
-			return [] as Profile[]
+		if (data.Socials.Social) {
+			const profiles: Profile[] = data.Socials.Social
+			return profiles
 		}
 
-		const profiles: Profile[] = data.Socials.Social
-		return profiles
+		return [] as Profile[]
 	}
 
 	async function fetchProfileByAddress(address: string): Promise<Profile> {
@@ -32,24 +32,26 @@ export function getRequests() {
 		// TODO: Fix any type
 		const data: any = await client.request(query)
 
-		if (!data.Socials.Social) {
-			return {} as Profile
+		if (data.Socials.Social) {
+			const profile: Profile = data.Socials.Social[0]
+			return profile
 		}
 
-		const profile: Profile = data.Socials.Social[0]
-		return profile
+		return {} as Profile
 	}
+
 	async function fetchProfileByHandle(handle: string): Promise<Profile> {
 		const query: string = fetchProfileByHandleQuery(handle)
 
 		// TODO: Fix any type
 		const data: any = await client.request(query)
 
-		if (!data.Socials.Social) {
-			return {} as Profile
+		if (data.Socials.Social) {
+			const profile = data.Socials.Social[0]
+			return profile
 		}
-		const profile = data.Socials.Social[0]
-		return profile
+
+		return {} as Profile
 	}
 
 	return {

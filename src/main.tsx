@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom/client'
 import { WagmiProvider } from 'wagmi'
 import { arbitrum, base, mainnet, optimism, polygon } from 'wagmi/chains'
 
-import { init } from '@airstack/airstack-react'
 import { getDefaultConfig, RainbowKitProvider } from '@rainbow-me/rainbowkit'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
@@ -19,14 +18,6 @@ const config = getDefaultConfig({
 	chains: [mainnet, polygon, optimism, arbitrum],
 	ssr: false // If your dApp uses server side rendering (SSR)
 })
-
-const apiKey: string = import.meta.env.VITE_AIRSTACK_API_KEY
-
-if (!apiKey) {
-	throw new Error('Missing VITE_AIRSTACK_API_KEY in .env')
-}
-
-init(apiKey)
 
 const queryClient = new QueryClient()
 
