@@ -16,7 +16,7 @@ import './index.css'
 const config = getDefaultConfig({
 	appName: RAINBOW_KIT_APP_NAME,
 	projectId: RAINBOW_KIT_APP_ID,
-	chains: [mainnet, polygon, optimism, arbitrum, base],
+	chains: [mainnet, polygon, optimism, arbitrum],
 	ssr: false // If your dApp uses server side rendering (SSR)
 })
 

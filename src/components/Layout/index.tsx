@@ -12,7 +12,7 @@ export default function Layout({
 		<>
 			<Navbar />
 			<div className='flex flex-col items-center my-3 px-8'>{appRoutes}</div>
-			<Footer />
+			{/* <Footer /> */}
 		</>
 	)
 }

@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { Link, NavLink } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import SyncLoader from 'react-spinners/SyncLoader'
 
 import { getRequests } from '@/graphql/requests'
@@ -11,16 +11,16 @@ import { ConnectButton } from '@rainbow-me/rainbowkit'
 export default function Navbar(): JSX.Element {
 	const { fetchAllProfilesByHandle } = getRequests()
 
+	const [input, setInput] = useState<string>('')
 	const [isLoading, setIsLoading] = useState<boolean>(true)
 	const [isOpen, setIsOpen] = useState<boolean>(false)
-	const [input, setInput] = useState<string>('')
 	const [profiles, setProfiles] = useState<Profile[] | []>([])
 
 	const containerRef = useRef<HTMLDivElement | null>(null)
 
 	const handleInputChange = async (handle: string) => {
 		setInput(handle)
-		if (handle.length > 0) {
+		if (handle.length > 2) {
 			await searchProfile(handle)
 		} else {
 			setIsOpen(false)
@@ -30,7 +30,7 @@ export default function Navbar(): JSX.Element {
 
 	const selectProfile = (profile: Profile) => {
 		console.log('profile: ', profile)
-		setInput('') // Esto limpia el campo de entrada
+		setInput('')
 		setIsOpen(false)
 	}
 
@@ -95,7 +95,6 @@ export default function Navbar(): JSX.Element {
 											size={10}
 											speedMultiplier={0.8}
 										/>
-										{/* Loading... */}
 									</button>
 								) : profiles.length > 0 ? (
 									profiles.map((profile: Profile, index: number) => (
