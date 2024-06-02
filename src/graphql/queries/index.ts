@@ -60,7 +60,7 @@ export const fetchProfileByHandleQuery = (handle: string): string => {
 		query GetProfilesByHandle {
 			Socials(
 				input: {
-					filter: { profileName: { _eq: "salviega" } }
+					filter: { profileName: { _eq: "${handle}" } }
 					blockchain: ethereum
 					limit: 50
 				}
