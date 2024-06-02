@@ -16,6 +16,7 @@ const initialProfile: Profile = {
 	profileHandle: '',
 	profileImage: '',
 	profileName: '',
+	userAddress: '',
 	userAssociatedAddresses: []
 }
 
