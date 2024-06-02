@@ -77,7 +77,7 @@ export default function Navbar(): JSX.Element {
 						/>
 					</Link>
 					<div className='relative w-max cursor-pointer'>
-						<div className='flex items-center w-32 md:w-48 lg:w-96'>
+						<div className='flex items-center w-48 lg:w-96'>
 							<FontAwesomeIcon
 								icon={faMagnifyingGlass}
 								className='absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400'

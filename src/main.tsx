@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { WagmiProvider } from 'wagmi'
-import { arbitrum, base, mainnet, optimism, polygon } from 'wagmi/chains'
+import { arbitrumSepolia } from 'wagmi/chains'
 
 import { getDefaultConfig, RainbowKitProvider } from '@rainbow-me/rainbowkit'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
@@ -15,7 +15,7 @@ import './index.css'
 const config = getDefaultConfig({
 	appName: RAINBOW_KIT_APP_NAME,
 	projectId: RAINBOW_KIT_APP_ID,
-	chains: [mainnet, polygon, optimism, arbitrum],
+	chains: [arbitrumSepolia],
 	ssr: false // If your dApp uses server side rendering (SSR)
 })
 

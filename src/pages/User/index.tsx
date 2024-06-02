@@ -34,7 +34,6 @@ export default function User(): JSX.Element {
 	const fetchProfile = async () => {
 		if (handle) {
 			const profile = await fetchProfileByHandle(handle)
-			console.log(profile)
 
 			if (address && Object.keys(profile).length > 0) {
 				const isAddressAssociated: boolean = profile.userAssociatedAddresses
