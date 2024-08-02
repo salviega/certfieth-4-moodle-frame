@@ -1,9 +1,4 @@
-import { Certificate } from 'crypto'
-import { LinkedinShareButton } from 'react-share'
-
 import { Profile } from '@/models/profile.model'
-import { faShareFromSquare } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 type Props = {
 	isLoading: boolean
@@ -75,7 +70,7 @@ const mockCertificates = [
 ]
 
 export default function Nfts(props: Props): JSX.Element {
-	const { isLoading, isUser, profile } = props
+	const { isLoading, profile } = props
 
 	return (
 		<div className='flex flex-col items-center my-8'>
